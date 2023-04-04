@@ -2,7 +2,14 @@ const Account = require("../models/account.model");
 
 // login
 const loginAccount = async (req, res) => {
-  res.json({ msg: "login account methods" });
+  const { email, password } = req.body;
+
+  try {
+    const user = await Account.login(email, password);
+    res.status(200).json({ user });
+  } catch (error) {
+    return res.status(400).json({ error: Error.message });
+  }
 };
 // signup
 const signupAccount = async (req, res) => {

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const validator = require("validator");
+
 const { Schema } = mongoose;
 
 const account = new Schema({
@@ -35,7 +37,7 @@ const account = new Schema({
   },
 });
 
-// static signup Method
+// static signup function
 account.statics.signup = async function (
   name,
   email,
@@ -43,9 +45,18 @@ account.statics.signup = async function (
   avatarLink,
   isAdmin
 ) {
-  const isExists = await this.findOne({ email });
+  if (!email || !password || !name) {
+    throw Error("All field must be filled");
+  }
+  if (!validator.isEmail(email)) {
+    throw Error("Email not valid!");
+  }
+  if (!validator.isStrongPassword(password)) {
+    throw Error("Password is not strong enough!");
+  }
+  const isEmailExists = await this.findOne({ email });
 
-  if (isExists) {
+  if (isEmailExists) {
     throw Error("Email already in use");
   }
 
@@ -62,4 +73,23 @@ account.statics.signup = async function (
 
   return newAccount;
 };
+
+//static login function
+account.statics.login = async function (email, password) {
+  if (!email || !password) {
+    throw Error("All field must be filled");
+  }
+
+  const acc = await this.findOne({ email });
+  if (!acc) {
+    throw Error("Incorrect Email!");
+  }
+  const isPasswordMatch = await bcrypt.compare(password, acc.password);
+  if (!isPasswordMatch) {
+    throw Error("Password is incorrect!");
+  }
+
+  return acc;
+};
+
 module.exports = mongoose.model("Account", account);
