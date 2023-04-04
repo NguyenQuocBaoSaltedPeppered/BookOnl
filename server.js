@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const accountRoutes = require("./routes/account.routes");
+const authorRoutes = require("./routes/author.routes");
 const bookRoutes = require("./routes/book.routes");
 
 //express app
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use("/api/accounts", accountRoutes);
+app.use("/api/authors", authorRoutes);
 app.use("/api/books", bookRoutes);
 
 //connect database
