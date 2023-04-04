@@ -11,4 +11,20 @@ const author = new Schema({
   },
 });
 
+author.statics.createnew = async function (name) {
+  if (!name) {
+    throw Error("Name field must be filled");
+  }
+
+  const isExists = await this.findOne({ name });
+
+  if (isExists) {
+    throw Error("Author already existed!");
+  }
+
+  const newAuthor = await this.create({ name });
+
+  return newAuthor;
+};
+
 module.exports = mongoose.model("Author", author);

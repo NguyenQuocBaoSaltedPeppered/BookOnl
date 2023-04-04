@@ -4,7 +4,7 @@ const express = require("express");
 const {
   loginAccount,
   signupAccount,
-} = require("../controllers/accountController");
+} = require("../controllers/account.controller");
 
 const router = express.Router();
 
