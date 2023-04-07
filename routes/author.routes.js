@@ -1,11 +1,11 @@
 const express = require("express");
 
 // controller functions
-const { newAuthor } = require("../controllers/author.controller");
+const authorController = require("../controllers/author.controller");
 
 const router = express.Router();
 
-// login route
-router.post("/new", newAuthor);
+router.get("/all", authorController.getAll);
+router.post("/new", authorController.newAuthor);
 
 module.exports = router;

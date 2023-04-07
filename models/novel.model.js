@@ -22,6 +22,7 @@ const novel = new Schema({
   },
   readCount: {
     type: Number,
+    require: true,
     default: 0,
   },
   authorId: {
