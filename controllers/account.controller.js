@@ -9,7 +9,7 @@ const accountController = {
       const user = await accountService.login(email, password);
       res.status(StatusCodes.OK).json({ user });
     } catch (error) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
     }
   },
   // signup

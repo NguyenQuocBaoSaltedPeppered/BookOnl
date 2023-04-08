@@ -1,5 +1,6 @@
 const Novel = require("../models/novel.model");
 const Chapter = require("../models/chapter.model");
+const mongoose = require("mongoose");
 
 const novelService = {
   newChapter: async (title, content, novelId) => {
@@ -19,6 +20,12 @@ const novelService = {
   },
   getChapter: async (chapterId) => {
     try {
+      if (!chapterId) {
+        throw Error("ChapterId field must be filled");
+      }
+      if (!mongoose.Types.ObjectId.isValid(chapterId)) {
+        throw Error("Id is not valid");
+      }
       const chapter = Chapter.find({ _id: chapterId });
       if (!chapter) {
         throw Error("Chapter is not existed");

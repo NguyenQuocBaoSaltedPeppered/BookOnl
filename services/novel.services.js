@@ -1,5 +1,6 @@
 const Novel = require("../models/novel.model");
 const Account = require("../models/account.model");
+const mongoose = require("mongoose");
 
 const novelService = {
   //new Novel
@@ -12,12 +13,17 @@ const novelService = {
     author,
     accountPostedId
   ) => {
-    if (!title || !intro || !types) {
-      throw Error("Title, Intro, Types must be all filled");
+    if (!title || !intro || !types || !author || !accountPostedId) {
+      throw Error(
+        "Title, Intro, Types, author or accountPostedId must be all filled"
+      );
     }
     const isNovelExisted = await Novel.findOne({ title: title });
     if (isNovelExisted) {
       throw Error("Novel is already existed");
+    }
+    if (!mongoose.Types.ObjectId.isValid(accountPostedId)) {
+      throw Error("Id is not valid");
     }
     const isAccountExisted = await Account.find({ _id: accountPostedId });
     if (!isAccountExisted) {
@@ -42,10 +48,10 @@ const novelService = {
   //getLatestNovel
   getLatestNovel: async () => {
     try {
-      const novelList = await Novel.find().sort({ $natural: -1 });
+      const novelList = await Novel.find().sort({ $natural: -1 }).limit(2);
       return novelList;
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   },
 };
