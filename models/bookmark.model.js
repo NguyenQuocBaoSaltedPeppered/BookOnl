@@ -5,10 +5,12 @@ const bookmark = new Schema({
   accountId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Account",
+    require: true,
   },
   novelId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Novel",
+    require: true,
   },
 });
 

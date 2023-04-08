@@ -23,7 +23,7 @@ const novelController = {
       );
       res.status(StatusCodes.OK).json({ newNovel });
     } catch (error) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
     }
   },
   getLatest: async (req, res) => {
@@ -31,7 +31,7 @@ const novelController = {
       const novelList = await novelService.getLatestNovel();
       res.status(StatusCodes.OK).json({ novelList });
     } catch (error) {
-      return res
+      res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json(ReasonPhrases.INTERNAL_SERVER_ERROR);
     }
