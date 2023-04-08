@@ -8,7 +8,6 @@ const chapter = new Schema(
       required: true,
       minlength: 4,
       maxlength: 25,
-      unique: true,
     },
     content: {
       type: String,

@@ -3,8 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const accountRoutes = require("./routes/account.routes");
-const authorRoutes = require("./routes/author.routes");
 const novelRoutes = require("./routes/novel.routes");
+const chapterRoutes = require("./routes/chapter.routes");
 
 //express app
 const app = express();
@@ -18,8 +18,8 @@ app.use((req, res, next) => {
 
 //routes
 app.use("/api/accounts", accountRoutes);
-app.use("/api/authors", authorRoutes);
 app.use("/api/novels", novelRoutes);
+app.use("/api/chapters", chapterRoutes);
 
 //connect database
 mongoose

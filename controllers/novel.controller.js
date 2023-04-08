@@ -8,7 +8,7 @@ const novelController = {
       types,
       coverLink,
       readCount,
-      authorName,
+      author,
       accountPostedId,
     } = req.body;
     try {
@@ -18,7 +18,7 @@ const novelController = {
         types,
         coverLink,
         readCount,
-        authorName,
+        author,
         accountPostedId
       );
       res.status(StatusCodes.OK).json({ newNovel });
