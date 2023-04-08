@@ -1,4 +1,5 @@
 const accountService = require("../services/account.services");
+const { StatusCodes } = require("http-status-codes");
 const accountController = {
   // login
   loginAccount: async (req, res) => {
@@ -6,9 +7,9 @@ const accountController = {
 
     try {
       const user = await accountService.login(email, password);
-      res.status(200).json({ user });
+      res.status(StatusCodes.OK).json({ user });
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
     }
   },
   // signup
@@ -23,9 +24,9 @@ const accountController = {
         avatarLink,
         isAdmin
       );
-      res.status(200).json({ user });
+      res.status(StatusCodes.OK).json({ user });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
     }
   },
 };

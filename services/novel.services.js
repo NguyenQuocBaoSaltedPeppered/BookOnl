@@ -1,6 +1,5 @@
 const Novel = require("../models/novel.model");
-
-const authorService = require("./author.services");
+const Account = require("../models/account.model");
 
 const novelService = {
   //new Novel
@@ -10,7 +9,7 @@ const novelService = {
     types,
     coverLink,
     readCount,
-    authorName,
+    author,
     accountPostedId
   ) => {
     if (!title || !intro || !types) {
@@ -20,7 +19,10 @@ const novelService = {
     if (isNovelExisted) {
       throw Error("Novel is already existed");
     }
-    const authorId = await authorService.getAuthorId(authorName);
+    const isAccountExisted = await Account.find({ _id: accountPostedId });
+    if (!isAccountExisted) {
+      throw Error("Account is not exist");
+    }
     try {
       const newNovel = Novel.create({
         title,
@@ -28,7 +30,7 @@ const novelService = {
         types,
         coverLink,
         readCount,
-        authorId,
+        author,
         accountPostedId,
       });
       return newNovel;

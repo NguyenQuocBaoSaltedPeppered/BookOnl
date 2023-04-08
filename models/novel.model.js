@@ -25,9 +25,8 @@ const novel = new Schema({
     require: true,
     default: 0,
   },
-  authorId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Author",
+  author: {
+    type: String,
   },
   accountPostedId: {
     type: mongoose.Schema.Types.ObjectId,
