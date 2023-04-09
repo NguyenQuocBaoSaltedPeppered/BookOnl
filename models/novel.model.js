@@ -14,7 +14,7 @@ const novel = new Schema({
     default:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque purus semper eget duis at tellus at urna. Arcu dictum varius duis at consectetur lorem donec massa sapien. Purus viverra accumsan in nisl nisi scelerisque eu. Vitae purus faucibus ornare suspendisse sed nisi.",
   },
-  types: [String],
+  types: { type: [String] },
   coverLink: {
     type: String,
     default:

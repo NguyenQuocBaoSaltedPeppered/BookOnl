@@ -48,8 +48,16 @@ const novelService = {
   //getLatestNovel
   getLatestNovel: async () => {
     try {
-      const novelList = await Novel.find().sort({ $natural: -1 }).limit(2);
+      const novelList = await Novel.find().sort({ $natural: -1 }).limit(4);
       return novelList;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  sameTypes: async (types) => {
+    try {
+      const novelSameTypes = await Novel.find({ types: types });
+      return novelSameTypes;
     } catch (error) {
       console.log(error);
     }

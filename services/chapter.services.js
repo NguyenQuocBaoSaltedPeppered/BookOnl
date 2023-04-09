@@ -4,10 +4,13 @@ const mongoose = require("mongoose");
 
 const novelService = {
   newChapter: async (title, content, novelId) => {
-    const isNovelExisted = await Novel.find({ _id: novelId });
     if (!title || !content || !novelId) {
       throw Error("All field must be filled");
     }
+    if (!mongoose.Types.ObjectId.isValid(novelId)) {
+      throw Error("Id is not valid");
+    }
+    const isNovelExisted = await Novel.find({ _id: novelId });
     if (!isNovelExisted) {
       throw Error("Novel is not exist");
     }

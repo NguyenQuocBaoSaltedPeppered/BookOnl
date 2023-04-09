@@ -36,5 +36,16 @@ const novelController = {
         .json(ReasonPhrases.INTERNAL_SERVER_ERROR);
     }
   },
+  sameTypes: async (req, res) => {
+    const types = req.body.types;
+    try {
+      const novelSameTypes = await novelService.sameTypes(types);
+      res.status(StatusCodes.OK).json({ novelSameTypes });
+    } catch (error) {
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: error.message });
+    }
+  },
 };
 module.exports = novelController;

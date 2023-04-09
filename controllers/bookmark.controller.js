@@ -1,5 +1,5 @@
 const bookmarkService = require("../services/bookmark.services");
-const { ReasonPhrases, StatusCodes } = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const bookmarkController = {
   newBookmark: async (req, res) => {
     const { accountId, novelId } = req.body;

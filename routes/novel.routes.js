@@ -14,4 +14,7 @@ router.get("/:id", (req, res) => {
 //Create 1 new novel
 router.post("/", novelController.newNovel);
 
+//novel same types
+router.post("/types", novelController.sameTypes);
+
 module.exports = router;
