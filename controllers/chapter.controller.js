@@ -1,5 +1,5 @@
 const chapterService = require("../services/chapter.services");
-const { ReasonPhrases, StatusCodes } = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const chapterController = {
   newChapter: async (req, res) => {
     const { title, content, novelId } = req.body;

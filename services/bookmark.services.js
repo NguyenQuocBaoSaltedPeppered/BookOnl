@@ -24,6 +24,13 @@ const bookmarkService = {
     if (!isNovelExisted) {
       throw Error("Novel is not exist");
     }
+    const isBookmarkExisted = await Bookmark.find({
+      accountId: accountId,
+      novelId: novelId,
+    }).count();
+    if (isBookmarkExisted > 0) {
+      throw Error("Bookmark is already existed");
+    }
     try {
       const newBookmark = Bookmark.create({ accountId, novelId });
       return newBookmark;
