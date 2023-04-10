@@ -28,9 +28,7 @@ app.use("/api/reviews", reviewRoutes);
 
 //connect database
 mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewURLParser: true,
-  })
+  .connect(process.env.MONGO_URL)
   .then(() => {
     // listen for requests
     app.listen(process.env.PORT, () => {

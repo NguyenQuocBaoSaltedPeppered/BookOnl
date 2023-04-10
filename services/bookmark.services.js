@@ -1,9 +1,9 @@
 const Bookmark = require("../models/bookmark.model");
 const Novel = require("../models/novel.model");
 const Account = require("../models/account.model");
+const utility = require("./utility.services");
 const mongoose = require("mongoose");
 
-const castId = (ID) => new mongoose.Types.ObjectId(ID);
 const bookmarkService = {
   //new Novel
   newBookmark: async (accountId, novelId) => {
@@ -55,7 +55,7 @@ const bookmarkService = {
       const bookmarkList = await Bookmark.aggregate([
         {
           $match: {
-            accountId: castId(accountId),
+            accountId: utility.castId(accountId),
           },
         },
         {
