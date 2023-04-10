@@ -7,9 +7,7 @@ const router = express.Router();
 
 router.get("/", novelController.getLatest);
 
-router.get("/:id", (req, res) => {
-  res.json({ mssg: "GET 1 novel api" });
-});
+router.get("/:novelId", novelController.get1Novel);
 
 //Create 1 new novel
 router.post("/", novelController.newNovel);

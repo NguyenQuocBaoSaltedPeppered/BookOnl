@@ -37,7 +37,7 @@ const novelController = {
     }
   },
   sameTypes: async (req, res) => {
-    const types = req.body.types;
+    const { types } = req.body;
     try {
       const novelSameTypes = await novelService.sameTypes(types);
       res.status(StatusCodes.OK).json({ novelSameTypes });
@@ -45,6 +45,18 @@ const novelController = {
       res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ error: error.message });
+    }
+  },
+  get1Novel: async (req, res) => {
+    const novelId = req.params.novelId;
+    try {
+      const { novelInfo, chapterList, reviewList, reviewNum, bookmarkNum } =
+        await novelService.get1Novel(novelId);
+      res
+        .status(StatusCodes.OK)
+        .json({ novelInfo, chapterList, reviewList, reviewNum, bookmarkNum });
+    } catch (error) {
+      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
     }
   },
 };
