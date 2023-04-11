@@ -1,23 +1,28 @@
 const Account = require("../models/account.model");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const utility = require("./utility.services");
 
 const accountService = {
   //signup
   signup: async (name, email, password, avatarLink, isAdmin) => {
     if (!email || !password || !name) {
-      throw Error("All field must be filled");
+      const error = utility.createError(400, "All field must be filled");
+      throw error;
     }
     if (!validator.isEmail(email)) {
-      throw Error("Email not valid!");
+      const error = utility.createError(400, "Email is not valid");
+      throw error;
     }
     if (!validator.isStrongPassword(password)) {
-      throw Error("Password is not strong enough!");
+      const error = utility.createError(400, "Password is not strong enough!");
+      throw error;
     }
     const isEmailExisted = await Account.findOne({ email: email });
 
     if (isEmailExisted) {
-      throw Error("Email already in use");
+      const error = utility.createError(303, "Email already in use");
+      throw error;
     }
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
@@ -40,15 +45,18 @@ const accountService = {
   //login
   login: async (email, password) => {
     if (!email || !password) {
-      throw Error("All field must be filled");
+      const error = utility.createError(400, "All field must be filled");
+      throw error;
     }
     const acc = await Account.findOne({ email: email });
     if (!acc) {
-      throw Error("Incorrect Email!");
+      const error = utility.createError(400, "Incorrect Email!");
+      throw error;
     }
     const isPasswordMatch = await bcrypt.compare(password, acc.password);
     if (!isPasswordMatch) {
-      throw Error("Password is incorrect!");
+      const error = utility.createError(400, "Password is incorrect!");
+      throw error;
     }
 
     return acc;

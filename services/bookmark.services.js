@@ -8,28 +8,33 @@ const bookmarkService = {
   //new Novel
   newBookmark: async (accountId, novelId) => {
     if (!accountId || !novelId) {
-      throw Error("All Field must be filled");
+      const error = utility.createError(400, "All Ids field must be filled");
+      throw error;
     }
     if (
       !mongoose.Types.ObjectId.isValid(accountId) ||
       !mongoose.Types.ObjectId.isValid(novelId)
     ) {
-      throw Error("Id is not valid");
+      const error = utility.createError(400, "Id is not valid");
+      throw error;
     }
-    const isAccountExisted = await Account.find({ _id: accountId });
+    const isAccountExisted = await Account.findById(accountId);
     if (!isAccountExisted) {
-      throw Error("Account is not exist");
+      const error = utility.createError(404, "Account is not exist");
+      throw error;
     }
-    const isNovelExisted = await Novel.find({ _id: novelId });
+    const isNovelExisted = await Novel.findById(novelId);
     if (!isNovelExisted) {
-      throw Error("Novel is not exist");
+      const error = utility.createError(404, "Novel is not exist");
+      throw error;
     }
-    const isBookmarkExisted = await Bookmark.find({
+    const isBookmarkExisted = await Bookmark.findOne({
       accountId: accountId,
       novelId: novelId,
-    }).count();
-    if (isBookmarkExisted > 0) {
-      throw Error("Bookmark is already existed");
+    });
+    if (isBookmarkExisted) {
+      const error = utility.createError(303, "Bookmark is already existed");
+      throw error;
     }
     try {
       const newBookmark = Bookmark.create({ accountId, novelId });
@@ -42,28 +47,23 @@ const bookmarkService = {
   //getLatestNovel
   getBookmark: async (accountId) => {
     if (!accountId) {
-      throw Error("accountId field must be filled");
+      const error = utility.createError(400, "accountId field must be filled");
+      throw error;
     }
     if (!mongoose.Types.ObjectId.isValid(accountId)) {
-      throw Error("Id is not valid");
+      const error = utility.createError(400, "Id is not valid");
+      throw error;
     }
-    const isAccountExisted = await Account.find({ _id: accountId });
+    const isAccountExisted = await Account.findById(accountId);
     if (!isAccountExisted) {
-      throw Error("Account is not exist");
+      const error = utility.createError(404, "Account is not exist");
+      throw error;
     }
     try {
       const bookmarkList = await Bookmark.aggregate([
         {
           $match: {
             accountId: utility.castId(accountId),
-          },
-        },
-        {
-          $lookup: {
-            from: "accounts",
-            localField: "accountId",
-            foreignField: "_id",
-            as: "accountInfo",
           },
         },
         {
@@ -76,19 +76,12 @@ const bookmarkService = {
         },
         {
           $unwind: {
-            path: "$accountInfo",
-          },
-        },
-        {
-          $unwind: {
             path: "$novelInfo",
           },
         },
         {
           $project: {
             _id: 1,
-            "accountInfo._id": 1,
-            "accountInfo.name": 1,
             "novelInfo._id": 1,
             "novelInfo.title": 1,
             "novelInfo.intro": 1,
@@ -104,13 +97,15 @@ const bookmarkService = {
   //deleteBookmark
   deleteBookmark: async (bookmarkId) => {
     if (!mongoose.Types.ObjectId.isValid(bookmarkId)) {
-      throw Error("Id is not valid");
+      const error = utility.createError(400, "Id is not valid");
+      throw error;
     }
     const deletedBookmark = await Bookmark.findOneAndDelete({
       _id: bookmarkId,
     });
     if (!deletedBookmark) {
-      throw Error("No such bookmark");
+      const error = utility.createError(404, "No such Bookmark");
+      throw error;
     }
     return deletedBookmark;
   },

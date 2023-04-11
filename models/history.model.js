@@ -11,6 +11,10 @@ const history = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Account",
     },
+    novelId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Novel",
+    },
   },
   { timestamps: true }
 );

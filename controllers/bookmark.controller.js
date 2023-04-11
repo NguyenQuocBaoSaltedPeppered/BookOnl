@@ -5,9 +5,9 @@ const bookmarkController = {
     const { accountId, novelId } = req.body;
     try {
       const newBookmark = await bookmarkService.newBookmark(accountId, novelId);
-      res.status(StatusCodes.OK).json({ newBookmark });
+      res.status(StatusCodes.CREATED).json({ newBookmark });
     } catch (error) {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(error.code).json({ error: error.message });
     }
   },
   getBookmark: async (req, res) => {
@@ -16,7 +16,7 @@ const bookmarkController = {
       const bookmarkList = await bookmarkService.getBookmark(accountId);
       res.status(StatusCodes.OK).json({ bookmarkList });
     } catch (error) {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(error.code).json({ error: error.message });
     }
   },
   deleteBookmark: async (req, res) => {
@@ -25,7 +25,7 @@ const bookmarkController = {
       const deletedBookmark = await bookmarkService.deleteBookmark(id);
       res.status(StatusCodes.OK).json({ deletedBookmark });
     } catch (error) {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(error.code).json({ error: error.message });
     }
   },
 };
