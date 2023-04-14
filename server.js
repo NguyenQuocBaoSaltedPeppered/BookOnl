@@ -8,6 +8,8 @@ const novelRoutes = require("./routes/novel.routes");
 const chapterRoutes = require("./routes/chapter.routes");
 const bookmarkRoutes = require("./routes/bookmark.routes");
 const reviewRoutes = require("./routes/review.routes");
+const commentRoutes = require("./routes/comment.routes");
+const historyRoutes = require("./routes/history.routes");
 
 //express app
 const app = express();
@@ -25,6 +27,8 @@ app.use("/api/novels", novelRoutes);
 app.use("/api/chapters", chapterRoutes);
 app.use("/api/bookmarks", bookmarkRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/history", historyRoutes);
 
 //connect database
 mongoose

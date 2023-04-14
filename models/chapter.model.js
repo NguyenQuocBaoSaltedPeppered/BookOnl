@@ -18,6 +18,9 @@ const chapter = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Novel",
     },
+    index: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

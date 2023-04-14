@@ -21,9 +21,9 @@ const novelController = {
         author,
         accountPostedId
       );
-      res.status(StatusCodes.OK).json({ newNovel });
+      res.status(StatusCodes.CREATED).json({ newNovel });
     } catch (error) {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(error.code).json({ error: error.message });
     }
   },
   getLatest: async (req, res) => {
@@ -50,13 +50,19 @@ const novelController = {
   get1Novel: async (req, res) => {
     const novelId = req.params.novelId;
     try {
-      const { novelInfo, chapterList, reviewList, reviewNum, bookmarkNum } =
+      const { novelInfo, chapterList, reviewList, reviewCount, bookmarkCount } =
         await novelService.get1Novel(novelId);
       res
         .status(StatusCodes.OK)
-        .json({ novelInfo, chapterList, reviewList, reviewNum, bookmarkNum });
+        .json({
+          novelInfo,
+          chapterList,
+          reviewList,
+          reviewCount,
+          bookmarkCount,
+        });
     } catch (error) {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(error.code).json({ error: error.message });
     }
   },
 };

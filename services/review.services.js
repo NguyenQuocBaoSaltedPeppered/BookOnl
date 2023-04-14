@@ -2,6 +2,7 @@ const Review = require("../models/review.model");
 const Account = require("../models/account.model");
 const Novel = require("../models/novel.model");
 const mongoose = require("mongoose");
+const utility = require("./utility.services");
 
 const reviewService = {
   newReview: async (
@@ -20,28 +21,33 @@ const reviewService = {
       !novelId ||
       !accountId
     ) {
-      throw Error("All field must be filled");
+      const error = utility.createError(400, "All field must be filled");
+      throw error;
     }
     if (
       !mongoose.Types.ObjectId.isValid(accountId) ||
       !mongoose.Types.ObjectId.isValid(novelId)
     ) {
-      throw Error("Id is not valid");
+      const error = utility.createError(400, "Id is not valid");
+      throw error;
     }
-    const isAccountExisted = await Account.find({ _id: accountId });
+    const isAccountExisted = await Account.findById(accountId);
     if (!isAccountExisted) {
-      throw Error("Account is not exist");
+      const error = utility.createError(404, "Account is not exist");
+      throw error;
     }
-    const isNovelExisted = await Novel.find({ _id: novelId });
+    const isNovelExisted = await Novel.findById(novelId);
     if (!isNovelExisted) {
-      throw Error("Novel is not exist");
+      const error = utility.createError(404, "Novel is not exist");
+      throw error;
     }
-    const isReviewExisted = await Review.find({
+    const isReviewExisted = await Review.findOne({
       accountId: accountId,
       novelId: novelId,
-    }).count();
-    if (isReviewExisted > 0) {
-      throw Error("Review is already existed");
+    });
+    if (isReviewExisted) {
+      const error = utility.createError(303, "Review is already exist");
+      throw error;
     }
     try {
       const newReview = await Review.create({

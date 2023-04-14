@@ -6,7 +6,7 @@ const novel = new Schema({
     type: String,
     required: true,
     minlength: 4,
-    maxlength: 25,
+    maxlength: 70,
     unique: true,
   },
   intro: {

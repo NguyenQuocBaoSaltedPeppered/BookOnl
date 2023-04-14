@@ -18,20 +18,25 @@ const novelService = {
     accountPostedId
   ) => {
     if (!title || !intro || !types || !author || !accountPostedId) {
-      throw Error(
+      const error = utility.createError(
+        400,
         "Title, Intro, Types, author or accountPostedId must be all filled"
       );
+      throw error;
     }
     const isNovelExisted = await Novel.findOne({ title: title });
     if (isNovelExisted) {
-      throw Error("Novel is already existed");
+      const error = utility.createError(303, "Novel is already existed");
+      throw error;
     }
     if (!mongoose.Types.ObjectId.isValid(accountPostedId)) {
-      throw Error("Id is not valid");
+      const error = utility.createError(400, "Id is not valid");
+      throw error;
     }
-    const isAccountExisted = await Account.find({ _id: accountPostedId });
+    const isAccountExisted = await Account.findOne({ _id: accountPostedId });
     if (!isAccountExisted) {
-      throw Error("Account is not exist");
+      const error = utility.createError(404, "Account is not exist");
+      throw error;
     }
     try {
       const newNovel = Novel.create({
@@ -52,7 +57,9 @@ const novelService = {
   //getLatestNovel
   getLatestNovel: async () => {
     try {
-      const novelList = await Novel.find().sort({ $natural: -1 }).limit(4);
+      const novelList = await Novel.find({}, { accountPostedId: 0 })
+        .sort({ $natural: -1 })
+        .limit(4);
       return novelList;
     } catch (error) {
       console.log(error);
@@ -68,11 +75,13 @@ const novelService = {
   },
   get1Novel: async (novelId) => {
     if (!mongoose.Types.ObjectId.isValid(novelId)) {
-      throw Error("Id is not valid");
+      const error = utility.createError(400, "Id is not valid");
+      throw error;
     }
     const isNovelExisted = await Novel.find({ _id: novelId });
     if (!isNovelExisted) {
-      throw Error("Novel is not exist");
+      const error = utility.createError(404, "Novel is not exist");
+      throw error;
     }
     try {
       const novelInfo = await Novel.aggregate([
@@ -148,9 +157,9 @@ const novelService = {
           },
         },
       ]);
-      const reviewNum = await Review.find({ novelId: novelId }).count();
-      const bookmarkNum = await Bookmark.find({ novelId: novelId }).count();
-      return { novelInfo, chapterList, reviewList, reviewNum, bookmarkNum };
+      const reviewCount = reviewList.length;
+      const bookmarkCount = await Bookmark.find({ novelId: novelId }).count();
+      return { novelInfo, chapterList, reviewList, reviewCount, bookmarkCount };
     } catch (error) {
       console.log(error);
     }

@@ -10,18 +10,19 @@ const chapterController = {
         content,
         novelId
       );
-      res.status(StatusCodes.OK).json({ newChapter });
+      res.status(StatusCodes.CREATED).json({ newChapter });
     } catch (error) {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(error.code).json({ error: error.message });
     }
   },
   getChapter: async (req, res) => {
     const chapterId = req.params.chapterId;
     try {
-      const chapter = await chapterService.getChapter(chapterId);
-      res.status(StatusCodes.OK).json({ chapter });
+      const { chapter, prev, next, commentList } =
+        await chapterService.getChapter(chapterId);
+      res.status(StatusCodes.OK).json({ chapter, prev, next, commentList });
     } catch (error) {
-      res.status(StatusCodes.BAD_REQUEST).json({ error: error.message });
+      res.status(error.code).json({ error: error.message });
     }
   },
 };
