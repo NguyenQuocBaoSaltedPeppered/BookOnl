@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const { ApolloServer } = require("apollo-server");
 
 const accountRoutes = require("./routes/account.routes");
 const novelRoutes = require("./routes/novel.routes");
@@ -30,6 +31,15 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/history", historyRoutes);
 
+//graphQL
+const typeDefs = require("./graphQL/typeDefs");
+const resolvers = require("./graphQL/resolvers");
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
 //connect database
 mongoose
   .connect(process.env.MONGO_URL)
@@ -37,6 +47,9 @@ mongoose
     // listen for requests
     app.listen(process.env.PORT, () => {
       console.log("connected to db & listening on port", process.env.PORT);
+    });
+    return server.listen(process.env.APOLLO_PORT, () => {
+      console.log("Apollo server listening on port", process.env.APOLLO_PORT);
     });
   })
   .catch((error) => {
