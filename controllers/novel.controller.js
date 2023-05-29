@@ -38,6 +38,7 @@ const novelController = {
   },
   sameTypes: async (req, res) => {
     const { types } = req.body;
+    console.log(types);
     try {
       const novelSameTypes = await novelService.sameTypes(types);
       res.status(StatusCodes.OK).json({ novelSameTypes });
@@ -52,15 +53,13 @@ const novelController = {
     try {
       const { novelInfo, chapterList, reviewList, reviewCount, bookmarkCount } =
         await novelService.get1Novel(novelId);
-      res
-        .status(StatusCodes.OK)
-        .json({
-          novelInfo,
-          chapterList,
-          reviewList,
-          reviewCount,
-          bookmarkCount,
-        });
+      res.status(StatusCodes.OK).json({
+        novelInfo,
+        chapterList,
+        reviewList,
+        reviewCount,
+        bookmarkCount,
+      });
     } catch (error) {
       res.status(error.code).json({ error: error.message });
     }

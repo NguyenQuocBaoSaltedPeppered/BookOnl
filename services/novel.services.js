@@ -67,7 +67,15 @@ const novelService = {
   },
   sameTypes: async (types) => {
     try {
-      const novelSameTypes = await Novel.find({ types: types });
+      console.log(types);
+      const novelSameTypes = await Novel.find({
+        types: {
+          $in: types,
+        },
+        types: {
+          $exists: true,
+        },
+      }).sort({ readCount: -1 });
       return novelSameTypes;
     } catch (error) {
       console.log(error);

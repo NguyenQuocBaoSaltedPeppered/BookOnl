@@ -11,6 +11,7 @@ const bookmarkRoutes = require("./routes/bookmark.routes");
 const reviewRoutes = require("./routes/review.routes");
 const commentRoutes = require("./routes/comment.routes");
 const historyRoutes = require("./routes/history.routes");
+const rankingRoutes = require("./routes/ranking.routes");
 
 //express app
 const app = express();
@@ -30,6 +31,7 @@ app.use("/api/bookmarks", bookmarkRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/history", historyRoutes);
+app.use("/api/ranking", rankingRoutes);
 
 //graphQL
 const typeDefs = require("./graphQL/typeDefs");

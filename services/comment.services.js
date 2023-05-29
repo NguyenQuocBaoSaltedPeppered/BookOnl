@@ -46,6 +46,41 @@ const commentService = {
       console.log(error);
     }
   },
+
+  commentOfANovel: async (novelId) => {
+    if (!mongoose.Types.ObjectId.isValid(novelId)) {
+      const error = utility.createError(400, "Id is not valid");
+      throw error;
+    }
+    try {
+      const commentList = await Comment.aggregate([
+        {
+          $lookup: {
+            from: "chapters",
+            localField: "chapterId",
+            foreignField: "_id",
+            as: "chapterInfo",
+          },
+        },
+        {
+          $unwind: {
+            path: "$chapterInfo",
+          },
+        },
+        {
+          $match: {
+            "chapterInfo.novelId": utility.castId(novelId),
+          },
+        },
+        {
+          $limit: 10,
+        },
+      ]);
+      return commentList;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 module.exports = commentService;

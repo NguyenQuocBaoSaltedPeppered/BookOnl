@@ -14,5 +14,14 @@ const commentController = {
       res.status(error.code).json({ error: error.message });
     }
   },
+  commentOfANovel: async (req, res) => {
+    const { novelId } = req.params;
+    try {
+      const commentList = await commentService.commentOfANovel(novelId);
+      res.status(StatusCodes.OK).json({ commentList });
+    } catch (error) {
+      res.status(error.code).json({ error: error.message });
+    }
+  },
 };
 module.exports = commentController;
