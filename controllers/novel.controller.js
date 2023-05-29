@@ -64,5 +64,15 @@ const novelController = {
       res.status(error.code).json({ error: error.message });
     }
   },
+
+  searchNovel: async (req, res) => {
+    const { searchName } = req.body;
+    try {
+      const searchResult = await novelService.searchNovel(searchName);
+      res.status(StatusCodes.OK).json({ searchResult });
+    } catch (error) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json("Something wrong!");
+    }
+  },
 };
 module.exports = novelController;

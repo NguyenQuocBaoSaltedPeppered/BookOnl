@@ -72,9 +72,6 @@ const novelService = {
         types: {
           $in: types,
         },
-        types: {
-          $exists: true,
-        },
       }).sort({ readCount: -1 });
       return novelSameTypes;
     } catch (error) {
@@ -168,6 +165,15 @@ const novelService = {
       const reviewCount = reviewList.length;
       const bookmarkCount = await Bookmark.find({ novelId: novelId }).count();
       return { novelInfo, chapterList, reviewList, reviewCount, bookmarkCount };
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  searchNovel: async (searchName) => {
+    try {
+      const searchResult = await Novel.find({ title: { $regex: searchName } });
+      return searchResult;
     } catch (error) {
       console.log(error);
     }

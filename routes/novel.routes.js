@@ -15,4 +15,6 @@ router.post("/", novelController.newNovel);
 //novel same types
 router.post("/types", novelController.sameTypes);
 
+router.post("/search", novelController.searchNovel);
+
 module.exports = router;
