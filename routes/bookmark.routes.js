@@ -9,9 +9,12 @@ const router = express.Router();
 router.post("/", bookmarkController.newBookmark);
 
 //POST to get bookmark for a account
-router.post("/get", bookmarkController.getBookmark);
+router.get("/:accountId", bookmarkController.getBookmark);
 
 //DELETE bookmark
-// router.delete("/:bookmarkId", bookmarkController.deleteBookmark);
 router.delete("/:accountID/:novelID", bookmarkController.deleteBookmark);
+
+//GET Bookmark Status
+router.get("/:accountId/:novelId", bookmarkController.bookmarkStatus);
+
 module.exports = router;

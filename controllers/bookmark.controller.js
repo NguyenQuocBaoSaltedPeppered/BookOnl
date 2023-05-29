@@ -11,7 +11,7 @@ const bookmarkController = {
     }
   },
   getBookmark: async (req, res) => {
-    const { accountId } = req.body;
+    const { accountId } = req.params;
     try {
       const bookmarkList = await bookmarkService.getBookmark(accountId);
       res.status(StatusCodes.OK).json({ bookmarkList });
@@ -19,15 +19,6 @@ const bookmarkController = {
       res.status(error.code).json({ error: error.message });
     }
   },
-  // deleteBookmark: async (req, res) => {
-  //   const id = req.params.bookmarkId;
-  //   try {
-  //     const deletedBookmark = await bookmarkService.deleteBookmark(id);
-  //     res.status(StatusCodes.OK).json({ deletedBookmark });
-  //   } catch (error) {
-  //     res.status(error.code).json({ error: error.message });
-  //   }
-  // },
   deleteBookmark: async (req, res) => {
     const { accountID, novelID } = req.params;
     try {
@@ -36,6 +27,18 @@ const bookmarkController = {
         novelID
       );
       res.status(StatusCodes.OK).json({ deleteBookmark });
+    } catch (error) {
+      res.status(error.code).json({ error: error.message });
+    }
+  },
+  bookmarkStatus: async (req, res) => {
+    const { accountId, novelId } = req.params;
+    try {
+      const isBookmarked = await bookmarkService.bookmarkStatus(
+        accountId,
+        novelId
+      );
+      res.status(StatusCodes.OK).json({ isBookmarked });
     } catch (error) {
       res.status(error.code).json({ error: error.message });
     }
