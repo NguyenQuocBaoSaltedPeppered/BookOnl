@@ -95,13 +95,24 @@ const bookmarkService = {
   },
 
   //deleteBookmark
-  deleteBookmark: async (bookmarkId) => {
-    if (!mongoose.Types.ObjectId.isValid(bookmarkId)) {
-      const error = utility.createError(400, "Id is not valid");
-      throw error;
-    }
+  // deleteBookmark: async (bookmarkId) => {
+  //   if (!mongoose.Types.ObjectId.isValid(bookmarkId)) {
+  //     const error = utility.createError(400, "Id is not valid");
+  //     throw error;
+  //   }
+  //   const deletedBookmark = await Bookmark.findOneAndDelete({
+  //     _id: bookmarkId,
+  //   });
+  //   if (!deletedBookmark) {
+  //     const error = utility.createError(404, "No such Bookmark");
+  //     throw error;
+  //   }
+  //   return deletedBookmark;
+  // },
+  deleteBookmark: async (accountID, novelID) => {
     const deletedBookmark = await Bookmark.findOneAndDelete({
-      _id: bookmarkId,
+      accountId: accountID,
+      novelId: novelID,
     });
     if (!deletedBookmark) {
       const error = utility.createError(404, "No such Bookmark");

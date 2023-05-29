@@ -19,11 +19,23 @@ const bookmarkController = {
       res.status(error.code).json({ error: error.message });
     }
   },
+  // deleteBookmark: async (req, res) => {
+  //   const id = req.params.bookmarkId;
+  //   try {
+  //     const deletedBookmark = await bookmarkService.deleteBookmark(id);
+  //     res.status(StatusCodes.OK).json({ deletedBookmark });
+  //   } catch (error) {
+  //     res.status(error.code).json({ error: error.message });
+  //   }
+  // },
   deleteBookmark: async (req, res) => {
-    const id = req.params.bookmarkId;
+    const { accountID, novelID } = req.params;
     try {
-      const deletedBookmark = await bookmarkService.deleteBookmark(id);
-      res.status(StatusCodes.OK).json({ deletedBookmark });
+      const deleteBookmark = await bookmarkService.deleteBookmark(
+        accountID,
+        novelID
+      );
+      res.status(StatusCodes.OK).json({ deleteBookmark });
     } catch (error) {
       res.status(error.code).json({ error: error.message });
     }

@@ -12,6 +12,6 @@ router.post("/", bookmarkController.newBookmark);
 router.post("/get", bookmarkController.getBookmark);
 
 //DELETE bookmark
-router.delete("/:bookmarkId", bookmarkController.deleteBookmark);
-
+// router.delete("/:bookmarkId", bookmarkController.deleteBookmark);
+router.delete("/:accountID/:novelID", bookmarkController.deleteBookmark);
 module.exports = router;
