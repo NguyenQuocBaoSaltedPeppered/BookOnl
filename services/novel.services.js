@@ -67,10 +67,9 @@ const novelService = {
   },
   sameTypes: async (types) => {
     try {
-      console.log(types);
       const novelSameTypes = await Novel.find({
         types: {
-          $in: types,
+          $all: types,
         },
       }).sort({ readCount: -1 });
       return novelSameTypes;

@@ -38,7 +38,6 @@ const novelController = {
   },
   sameTypes: async (req, res) => {
     const { types } = req.body;
-    console.log(types);
     try {
       const novelSameTypes = await novelService.sameTypes(types);
       res.status(StatusCodes.OK).json({ novelSameTypes });
