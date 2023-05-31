@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const { ApolloServer } = require("apollo-server");
 
 const accountRoutes = require("./routes/account.routes");
 const novelRoutes = require("./routes/novel.routes");
@@ -12,6 +11,7 @@ const reviewRoutes = require("./routes/review.routes");
 const commentRoutes = require("./routes/comment.routes");
 const historyRoutes = require("./routes/history.routes");
 const rankingRoutes = require("./routes/ranking.routes");
+const rdfRoutes = require("./routes/rdf.routes");
 
 //express app
 const app = express();
@@ -32,15 +32,7 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/history", historyRoutes);
 app.use("/api/ranking", rankingRoutes);
-
-//graphQL
-const typeDefs = require("./graphQL/typeDefs");
-const resolvers = require("./graphQL/resolvers");
-
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
+app.use("/rdf", rdfRoutes);
 
 //connect database
 mongoose
@@ -49,9 +41,6 @@ mongoose
     // listen for requests
     app.listen(process.env.PORT, () => {
       console.log("connected to db & listening on port", process.env.PORT);
-    });
-    return server.listen(process.env.APOLLO_PORT, () => {
-      console.log("Apollo server listening on port", process.env.APOLLO_PORT);
     });
   })
   .catch((error) => {
