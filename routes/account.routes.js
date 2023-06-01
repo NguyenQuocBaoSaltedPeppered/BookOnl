@@ -11,4 +11,7 @@ router.post("/login", accountController.loginAccount);
 // signup route
 router.post("/signup", accountController.signupAccount);
 
+//get posted novel
+router.get("/novel/:accountId", accountController.getNovel);
+
 module.exports = router;

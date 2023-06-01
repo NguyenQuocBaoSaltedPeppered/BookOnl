@@ -1,6 +1,8 @@
 const Account = require("../models/account.model");
+const Novel = require("../models/novel.model");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const mongoose = require("mongoose");
 const utility = require("./utility.services");
 
 const accountService = {
@@ -60,6 +62,21 @@ const accountService = {
     }
 
     return acc;
+  },
+
+  //get posted novel
+  getNovel: async (accountId) => {
+    if (!mongoose.Types.ObjectId.isValid(accountId)) {
+      const error = utility.createError(400, "Invalid ID");
+      throw error;
+    }
+    const isAccountExisted = await Account.findOne({ _id: accountId });
+    if (!isAccountExisted) {
+      const error = utility.createError(404, "Account Not Found");
+      throw error;
+    }
+    const novelList = await Novel.find({ accountPostedId: accountId });
+    return novelList;
   },
 };
 

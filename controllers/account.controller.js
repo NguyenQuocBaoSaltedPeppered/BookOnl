@@ -29,6 +29,15 @@ const accountController = {
       res.status(error.code).json({ error: error.message });
     }
   },
+  getNovel: async (req, res) => {
+    const { accountId } = req.params;
+    try {
+      const novelList = await accountService.getNovel(accountId);
+      res.status(StatusCodes.OK).json({ novelList });
+    } catch (error) {
+      res.status(error.code).json({ error: error.message });
+    }
+  },
 };
 
 module.exports = accountController;
